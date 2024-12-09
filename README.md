@@ -94,4 +94,4 @@ State Data
 |0x116|Total Battery Over-charges|Count|
 |0x117|Total Battery Full Charges|Count|
 
-## Hope everything work flawlesly!
+## [Hope everything work flawlesly!](https://buymeacoffee.com/mlevac21)
