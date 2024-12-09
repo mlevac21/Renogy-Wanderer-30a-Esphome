@@ -27,16 +27,16 @@ Now is the tricky part! you can check with a multimeter the voltage on the RJ12 
 ![Renogy RS232 pinout](image/IMG_6318.png)
 
 For the pinout for the RS232 to TTL side of module, you need to follow this order
-  TX on ESP32    ->  RX on module
-  RX on ESP32    ->  TX on module
-  3.3V on esp32  ->  VCC on module
-  GND on ESP32   ->  GND on module
+  |TX on ESP32|RX on module|
+  |RX on ESP32|TX on module|
+  |3.3V on esp32|VCC on module|
+  |GND on ESP32|GND on module|
 
   And for the RS232 side
 
-  RX on module   ->  TX on cable
-  TX on module   ->  RX on cable
-  GND on module  ->  GND on cable
+  |RX on module|TX on cable|
+  |TX on module|RX on cable|
+  |GND on module|GND on cable|
 
 If you want to power the esp32 from the cable, you can use [mini buck dc to dc converter](https://amzn.to/4ityJCo)
 
