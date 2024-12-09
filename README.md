@@ -51,7 +51,7 @@ If you want to power the ESP32 directly from the cable, you can use  [mini buck 
 Connect your esp32 to your computer, install ESPHOME and [use this code](https://github.com/mlevac21/Renogy-Wanderer-30a-Esphome/blob/main/code)
 
 ## Available Data
-Below is the list of registers you can access, as detailed in the [from sophienyaa project](https://github.com/sophienyaa/NodeRenogy)
+Below is the list of registers adress you can access, as detailed in the [from sophienyaa project](https://github.com/sophienyaa/NodeRenogy)
 
 Device Information
 |Register|Description|Unit|
