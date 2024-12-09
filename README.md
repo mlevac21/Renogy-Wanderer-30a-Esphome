@@ -8,5 +8,8 @@ I found inspiration with [wrybread project](https://github.com/wrybread/ESP32Ard
 
 To get the data, you need to grab the data from the RS232 port. A normal [RJ12 cable](https://amzn.to/3OSy67P) will do the trick
 
+![RJ12](image/IMG_6315.jpeg)
+
 Next, you can use a [connection box](https://amzn.to/41t3C3V) to easily connect to your cable
 
+![Connection box](image/IMG_6316.jpeg)
