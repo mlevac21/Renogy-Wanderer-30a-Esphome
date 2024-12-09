@@ -26,7 +26,7 @@ Here’s the tricky part! Use a multimeter to check the voltage on the RJ12 cabl
 
 ![Renogy RS232 pinout](image/IMG_6318.png)
 
-#Wiring Connections
+## Wiring Connections
 
 ESP32 to TTL Side Module:
 |ESP32|TTL side Module|
@@ -45,10 +45,10 @@ RS232 Side Module to RJ12 Cable:
 
 If you want to power the ESP32 directly from the cable, you can use  [mini buck dc to dc converter](https://amzn.to/4ityJCo)
 
-#Software Configuration
+## Software Configuration
 Connect your esp32 to your computer, install ESPHOME and [use this code](https://github.com/mlevac21/Renogy-Wanderer-30a-Esphome/blob/main/code)
 
-#Available Data
+## Available Data
 Below is the list of registers you can access, as detailed in the [from sophienyaa project](https://github.com/sophienyaa/NodeRenogy)
 
 Device Information
@@ -92,4 +92,4 @@ State Data
 |0x116|Total Battery Over-charges|Count|
 |0x117|Total Battery Full Charges|Count|
 
-#Hope everything work flawlesly!
+## Hope everything work flawlesly!
