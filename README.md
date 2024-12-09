@@ -10,6 +10,8 @@ This project was inspired by and references:
 
 [sophienyaa project](https://github.com/sophienyaa/NodeRenogy)
 
+## Requirement
+
 To retrieve data, you’ll need to access the RS232 port. A standard [RJ12 cable](https://amzn.to/3OSy67P) will work.
 
 ![RJ12](image/IMG_6315.jpeg)
