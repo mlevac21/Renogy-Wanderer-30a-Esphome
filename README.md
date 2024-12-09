@@ -4,30 +4,31 @@ This project integrates the [Renogy Wanderer 30A charge controller](https://amzn
 
 ![Renogy Wanderer 30A](image/IMG_6312.jpeg)
 
-I found inspiration and info in
+This project was inspired by and references:
 
 [wrybread project](https://github.com/wrybread/ESP32ArduinoRenogy)
 
 [sophienyaa project](https://github.com/sophienyaa/NodeRenogy)
 
-To get the data, you need to grab the data from the RS232 port. A normal [RJ12 cable](https://amzn.to/3OSy67P) will do the trick
+To retrieve data, you’ll need to access the RS232 port. A standard [RJ12 cable](https://amzn.to/3OSy67P) will work.
 
 ![RJ12](image/IMG_6315.jpeg)
 
-Next, you can use a [connection box](https://amzn.to/41t3C3V) to easily connect to your cable
+Next, you can use a [connection box](https://amzn.to/41t3C3V) to easily connect the cable
 
 ![Connection box](image/IMG_6316.jpeg)
 
-To translate RS232 data to an ESP32, you need a [RS232 to TTL module](https://amzn.to/4gavRcb)
+To convert RS232 data for use with an ESP32, you’ll need an [RS232 to TTL module](https://amzn.to/4gavRcb)
 
 ![RS232 to TTL module](image/IMG_6317.jpeg)
 
-Now is the tricky part! you can check with a multimeter the voltage on the RJ12 cable when plug it in the Renogy Controller and follow the logic order
+Here’s the tricky part! Use a multimeter to check the voltage on the RJ12 cable when it’s plugged into the Renogy controller. Then, match the pin order as shown below:
 
 ![Renogy RS232 pinout](image/IMG_6318.png)
 
-For the pinout for the RS232 to TTL side of module, you need to follow this order
+Wiring Connections
 
+ESP32 to TTL Side Module:
 |ESP32|TTL side Module|
 |--------|-----------|
 |TX on ESP32|RX on module|
@@ -35,22 +36,22 @@ For the pinout for the RS232 to TTL side of module, you need to follow this orde
 |3.3V on esp32|VCC on module|
 |GND on ESP32|GND on module|
 
-And for the RS232 side
-  
+RS232 Side Module to RJ12 Cable:  
 |RS232 side module|RJ12 Cable|
 |--------|-----------|
 |RX on module|TX on cable|
 |TX on module|RX on cable|
 |GND on module|GND on cable|
 
-If you want to power the esp32 from the cable, you can use [mini buck dc to dc converter](https://amzn.to/4ityJCo)
+If you want to power the ESP32 directly from the cable, you can use  [mini buck dc to dc converter](https://amzn.to/4ityJCo)
 
+Software Configuration
 Connect your esp32 to your computer, install ESPHOME and [use this code](https://github.com/mlevac21/Renogy-Wanderer-30a-Esphome/blob/main/code)
 
-This is the list of data you can get from the controller [from sophienyaa project](https://github.com/sophienyaa/NodeRenogy)
+Available Data
+Below is the list of registers you can access, as detailed in the [from sophienyaa project](https://github.com/sophienyaa/NodeRenogy)
 
-The below is a list of supported registers for device information:
-
+Device Information
 |Register|Description|Unit|
 |--------|-----------|-----|
 |0x00A|Controller voltage rating|Volts|
@@ -63,7 +64,7 @@ The below is a list of supported registers for device information:
 |0x018 - 0x019|Controller serial number||
 |0x01A|Controller MODBUS address||
 
-The below is a list of supported registers for state data:
+State Data
 |Register|Description|Unit|
 |--------|-----------|-----|
 |0x100|Battery Capacity|Percent|
@@ -90,3 +91,5 @@ The below is a list of supported registers for state data:
 |0x115|Controller Uptime|Days|
 |0x116|Total Battery Over-charges|Count|
 |0x117|Total Battery Full Charges|Count|
+
+Hope everything work flawlesly!
