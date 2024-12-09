@@ -35,9 +35,6 @@ For the pinout for the RS232 to TTL side of module, you need to follow this orde
 |3.3V on esp32|VCC on module|
 |GND on ESP32|GND on module|
 
-|0x00A|Controller voltage rating|Volts|
-|0x00A|Controller current rating|Amps|
-
 And for the RS232 side
   
 |RS232 side module|RJ12 Cable|
