@@ -24,7 +24,7 @@ To translate RS232 data to an ESP32, you need a [RS232 to TTL module](https://am
 
 Now is the tricky part! you can check with a multimeter the voltage on the RJ12 cable when plug it in the Renogy Controller and follow the logic order
 
-![Renogy RS232 pinout](image/IMG_6318.jpeg)
+![Renogy RS232 pinout](image/IMG_6318.png)
 
 For the pinout for the RS232 to TTL side of module, you need to follow this order
   TX on ESP32    ->  RX on module
