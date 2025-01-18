@@ -95,3 +95,9 @@ State Data
 |0x117|Total Battery Full Charges|Count|
 
 ## [Hope everything work flawlesly!](https://buymeacoffee.com/mlevac21)
+
+    <div align="center">
+        <img alt="Visitor Stats" 
+            src="https://widgetbite.com/stats/mlevac21"/>  
+    </div>
+
