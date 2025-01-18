@@ -101,8 +101,3 @@ State Data
         <img src="https://hits.dwyl.com/mlevac21/votre-repository.svg" alt="Hits Badge"/>
     </a>
 </div>
-
-<div align="center">
-    <img alt="Visitor Stats" 
-        src="https://img.shields.io/badge/dynamic/json?color=brightgreen&label=visits&query=value&url=https://api.countapi.xyz/hit/mlevac21/visitors"/>  
-</div>
