@@ -96,8 +96,9 @@ State Data
 
 ## [Hope everything work flawlesly!](https://buymeacoffee.com/mlevac21)
 
-    <div align="center">
-        <img alt="Visitor Stats" 
-            src="https://widgetbite.com/stats/mlevac21"/>  
-    </div>
+<div align="center">
+    <a href="https://hits.dwyl.com/mlevac21/votre-repository">
+        <img src="https://hits.dwyl.com/mlevac21/votre-repository.svg" alt="Hits Badge"/>
+    </a>
+</div>
 
