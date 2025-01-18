@@ -102,3 +102,7 @@ State Data
     </a>
 </div>
 
+<div align="center">
+    <img alt="Visitor Stats" 
+        src="https://img.shields.io/badge/dynamic/json?color=brightgreen&label=visits&query=value&url=https://api.countapi.xyz/hit/mlevac21/visitors"/>  
+</div>
