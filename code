@@ -1,56 +1,78 @@
-# ESPHome Configuration for Renogy Wanderer 30A Charge Controller
-
-# ESPHome Core Configuration
 esphome:
-  name: renogy-charge-controller  # Customize this name for your device
-  platform: ESP32
-  board: esp32dev
+  name: renogy-charge-controller
 
-# WiFi Configuration
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
 wifi:
   ssid: "YOUR_WIFI_SSID"  # Replace with your WiFi network name
   password: "YOUR_WIFI_PASSWORD"  # Replace with your WiFi password
   
-  # Optional: Static IP Configuration (recommended for stable connections)
-  manual_ip:
-    static_ip: 192.168.x.x  # Replace x with a unique IP in your network
-    gateway: 192.168.x.x    # Typically your router's IP
-    subnet: 255.255.255.0
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Renogy Charge Controller"
+    password: "configportal"
 
-# Fallback Hotspot (Captive Portal) 
-# Activates if WiFi connection fails, allowing device configuration
-ap:
-  ssid: "Renogy Charge Controller Hotspot"
-  password: "config-portal-password"
-
-# Logging Configuration
+# Enable logging
 logger:
-
-# Home Assistant API Integration
+  level: DEBUG
+  
+# Enable Home Assistant API
 api:
+  # No encryption for local network
 
-# Over-the-Air (OTA) Update Configuration
+# Enable over-the-air updates
 ota:
   platform: esphome
-  password: "secure_ota_password"  # Replace with a strong, unique password
+  password: "your_ota_update_password"
 
-# UART (Universal Asynchronous Receiver/Transmitter) Configuration for Modbus
+switch:
+  - platform: gpio
+    pin: GPIO13
+    name: "Relay Control"
+    id: relay_control
+    inverted: false  # Set to true if your relay is active-low
+    restore_mode: RESTORE_DEFAULT_OFF  # Relay will be off at startup
+
+script:
+  - id: keep_light_on
+    mode: restart  # Restarts the timer with each new motion detection
+    then:
+      - switch.turn_on: relay_control
+      - delay: 5min
+      - switch.turn_off: relay_control
+
+binary_sensor:
+  - platform: gpio
+    pin: GPIO14
+    name: "Motion Detector Shed"
+    device_class: motion
+    on_press:
+      then:
+        - script.execute: keep_light_on
+
+# Modbus configuration
 uart:
-  id: mod_uart
-  tx_pin: GPIO4   # Transmit pin - adjust based on your specific ESP32 board
-  rx_pin: GPIO16  # Receive pin - adjust based on your specific ESP32 board
-  baud_rate: 9600
-  stop_bits: 1
-  data_bits: 8
-  parity: NONE
+  - id: mod_uart
+    tx_pin: GPIO4
+    rx_pin: GPIO16
+    baud_rate: 9600
+    stop_bits: 1
+    data_bits: 8
+    parity: NONE
 
-# Modbus Configuration
 modbus:
-  id: mod_bus
-  uart_id: mod_uart
+  - id: mod_bus
+    uart_id: mod_uart
 
-# Sensor Configurations
-# Detailed Modbus register readings for various charge controller parameters
+modbus_controller:
+  - id: renogy_controller
+    modbus_id: mod_bus
+    address: 0xFF
+    update_interval: 10s
+
 sensor:
   # Battery State of Charge
   - platform: modbus_controller
@@ -86,17 +108,23 @@ sensor:
     filters:
       - multiply: 0.1
 
-   # Temperature Sensors
+  # Controller Temperature
   - platform: modbus_controller
     modbus_controller_id: renogy_controller
     name: "Controller Temperature"
     register_type: holding
     address: 0x103
-    value_type: S_WORD
+    value_type: U_WORD
     unit_of_measurement: "°C"
     accuracy_decimals: 0
     filters:
-      - lambda: return (static_cast<int16_t>(x) >> 8);
+      - lambda: |-
+          auto val = (uint16_t)(x) >> 8;
+          // Handle negative temperatures: 129 = -1°C, 130 = -2°C, etc.
+          if (val >= 129) {
+            return (float)(-(val - 128));
+          }
+          return (float)val;
 
   # Battery Temperature
   - platform: modbus_controller
@@ -104,11 +132,17 @@ sensor:
     name: "Battery Temperature"
     register_type: holding
     address: 0x103
-    value_type: S_WORD  # Changed to signed word
+    value_type: S_WORD
     unit_of_measurement: "°C"
     accuracy_decimals: 0
     filters:
-      - lambda: return (static_cast<int16_t>(x) & 0xFF);
+      - lambda: |-
+          auto val = (int16_t)(x) & 0xFF;
+          // Handle negative temperatures: 129 = -1°C, 130 = -2°C, etc.
+          if (val >= 129) {
+            val = -(val - 128);
+          }
+          return val;
 
   # Load Voltage
   - platform: modbus_controller
@@ -246,7 +280,7 @@ sensor:
     unit_of_measurement: "W"
     accuracy_decimals: 0
 
-  # Charge Amp/Hrs Today
+  # Charge Amp Hours Today
   - platform: modbus_controller
     modbus_controller_id: renogy_controller
     name: "Charge Amp Hours Today"
@@ -256,7 +290,7 @@ sensor:
     unit_of_measurement: "Ah"
     accuracy_decimals: 0
 
-  # Discharge Amp/Hrs Today
+  # Discharge Amp Hours Today
   - platform: modbus_controller
     modbus_controller_id: renogy_controller
     name: "Discharge Amp Hours Today"
@@ -266,7 +300,7 @@ sensor:
     unit_of_measurement: "Ah"
     accuracy_decimals: 0
 
-# Charge Watt/Hrs Today
+  # Charge Watt Hours Today
   - platform: modbus_controller
     modbus_controller_id: renogy_controller
     name: "Charge Watt Hours Today"
@@ -277,7 +311,7 @@ sensor:
     accuracy_decimals: 0
     state_class: total_increasing
 
-  # Discharge Watt/Hrs Today
+  # Discharge Watt Hours Today
   - platform: modbus_controller
     modbus_controller_id: renogy_controller
     name: "Discharge Watt Hours Today"
@@ -317,11 +351,3 @@ sensor:
     value_type: U_WORD
     unit_of_measurement: "count"
     accuracy_decimals: 0
-
-
-# Modbus Controller Configuration
-modbus_controller:
-  id: renogy_controller
-  modbus_id: mod_bus
-  address: 0x01  # Typical Modbus slave address for solar charge controllers
-  update_interval: 10s  # Frequency of data updates
